@@ -1,13 +1,13 @@
-# @obp/sdk
+# @obp/obp-ts
 
 TypeScript types and base classes for building OBP-compatible agents.
 
-This SDK is the reference implementation derived from [obp-spec](https://github.com/openbusinessprotocol/obp-spec).
+This is the reference implementation derived from [obp-spec](https://github.com/openbusinessprotocol/obp-spec).
 
 ## Install
 
 ```bash
-npm install @obp/sdk
+npm install @obp/obp-ts
 ```
 
 ## License
