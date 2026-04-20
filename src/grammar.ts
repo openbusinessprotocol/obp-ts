@@ -91,6 +91,32 @@ export interface OBPISADeclaration {
   rationale?: string
 }
 
+// ── Humanic Vocabulary (PROP-019, CC0) ───────────────────────────────────────
+
+/**
+ * Classifies whether an agent embodies its Human Principal's sovereignty.
+ *
+ * - `humanic`:     the agent tracks and enacts its owner's will at all times
+ * - `non-humanic`: the agent fails to track the owner's will — simulating
+ *                  compliance rather than genuinely enacting it
+ *
+ * This term is released into the public domain under CC0 (PROP-019, 2026-04-21).
+ * See: obp-spec/vocabulary/humanic.yaml
+ */
+export type HumanicClass = 'humanic' | 'non-humanic'
+
+/**
+ * The dual position of a human being within OBP (OBP-MASTER-MAP §human の二重性).
+ *
+ * A human is not simply a user or resource. They simultaneously occupy:
+ * - `principal`: L4 Sovereignty — ultimate owner and governor of agents
+ * - `being`:     L2 Operation  — participant in workflows like any other being
+ *
+ * This duality is the theoretical basis for the `HumanicClass` distinction:
+ * a humanic agent honors the L4 Principal relationship at all times.
+ */
+export type HumanDualCitizenship = 'principal' | 'being'
+
 // ── Recursive Flow (§5 extension) ─────────────────────────────────────────────
 
 /**

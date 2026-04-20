@@ -8,6 +8,8 @@ export type {
   OBPCoreOperation,
   OBPISADeclaration,
   FlowAsResource,
+  HumanicClass,
+  HumanDualCitizenship,
 } from './grammar.js'
 
 // Base
