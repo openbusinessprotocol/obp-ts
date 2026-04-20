@@ -1,0 +1,23 @@
+obp-ts — OBP TypeScript Reference Implementation
+Copyright 2026 OBP Specification Committee
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+Additional Terms (Section 7 of AGPL v3):
+
+  OBP Certified / OBP Compliant designation:
+    Displaying "OBP Certified" or "OBP Compliant" marks requires
+    certification by the Humanic Agents Foundation (HAF).
+    Use of these marks without HAF certification is not permitted.
+
+  Data Portability:
+    Any system incorporating this software must provide, upon Owner request,
+    data export in OBP-conformant format (YAML or JSON).
