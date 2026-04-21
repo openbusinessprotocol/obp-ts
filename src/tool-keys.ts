@@ -116,25 +116,41 @@ export const OBP_TOOL_KEYS = {
   /** プロジェクト・課題・スケジュール管理 */
   project: {
     /** プロジェクト一覧 */
-    list:             'project.list',
+    list:              'project.list',
     /** 課題一覧 */
-    issue_list:       'project.issue_list',
+    issue_list:        'project.issue_list',
     /** 課題作成 */
-    issue_create:     'project.issue_create',
+    issue_create:      'project.issue_create',
+    /** 課題完了 */
+    issue_complete:    'project.issue_complete',
     /** 課題更新 */
-    issue_update:     'project.issue_update',
+    issue_update:      'project.issue_update',
     /** 課題削除 */
-    issue_delete:     'project.issue_delete',
+    issue_delete:      'project.issue_delete',
+    /** 課題分解（サブタスク展開）*/
+    issue_decompose:   'project.issue_decompose',
+    /** サブタスク作成 */
+    subtask_create:    'project.subtask_create',
+    /** 課題説明更新 */
+    issue_describe:    'project.issue_describe',
+    /** 課題タイトル変更 */
+    issue_rename:      'project.issue_rename',
+    /** 課題期限設定 */
+    issue_set_due:     'project.issue_set_due',
+    /** 課題リンク（参照追加）*/
+    issue_link:        'project.issue_link',
     /** タスクアラート一覧 */
-    task_alerts_list: 'project.task_alerts_list',
+    task_alerts_list:  'project.task_alerts_list',
     /** スケジュール一覧 */
-    schedule_list:    'project.schedule_list',
+    schedule_list:     'project.schedule_list',
     /** スケジュール作成 */
-    schedule_create:  'project.schedule_create',
+    schedule_create:   'project.schedule_create',
     /** スケジュール更新 */
-    schedule_update:  'project.schedule_update',
+    schedule_update:   'project.schedule_update',
     /** スケジュール削除 */
-    schedule_delete:  'project.schedule_delete',
+    schedule_delete:   'project.schedule_delete',
+    /** スケジュール候補提案 */
+    schedule_propose:  'project.schedule_propose',
   },
 
   // ── vapp.* ────────────────────────────────────────────────────────────────
@@ -200,10 +216,8 @@ export const OBP_TOOL_KEYS = {
   },
 
   // ── notify.* ──────────────────────────────────────────────────────────────
-  /** 通知配信（Webhook 通知・Slack webhook など一方向送信）*/
+  /** 通知配信（抽象チャンネル。Slack 等のブランド実装は connector.* で）*/
   notify: {
-    /** Slack Webhook 通知 */
-    slack:   'notify.slack',
     /** メール送信 */
     email:   'notify.email',
     /** 任意 Webhook 送信 */
@@ -254,25 +268,89 @@ export const OBP_TOOL_KEYS = {
   },
 
   // ── social.* ──────────────────────────────────────────────────────────────
-  /** ソーシャルメディア操作 */
+  /**
+   * ソーシャルメディア抽象操作（プロバイダー非依存）
+   * Twitter/X → connector.x.* / Instagram → connector.instagram.* / LinkedIn → connector.linkedin.*
+   */
   social: {
-    /** Twitter/X 投稿 */
-    twitter_post:    'social.twitter_post',
-    /** Twitter/X 検索 */
-    twitter_search:  'social.twitter_search',
-    /** Instagram 投稿 */
-    instagram_post:  'social.instagram_post',
-    /** LinkedIn 投稿 */
-    linkedin_post:   'social.linkedin_post',
     /** ソーシャルキュレーション（マルチソース収集・整理）*/
-    curate:          'social.curate',
+    curate: 'social.curate',
   },
 
-  // ── grok.* ────────────────────────────────────────────────────────────────
-  /** Grok / X ライブ検索 */
-  grok: {
-    /** リアルタイム Web 検索 */
-    live_search: 'grok.live_search',
+  // ── knowledge.* ───────────────────────────────────────────────────────────
+  /** ナレッジ（VDB セマンティック知識ベース）操作 — Flapbase World Filter */
+  knowledge: {
+    /** ナレッジ保存 */
+    save:  'knowledge.save',
+    /** ナレッジ検索・参照 */
+    query: 'knowledge.query',
+  },
+
+  // ── contact.* ─────────────────────────────────────────────────────────────
+  /** コンタクト管理 — Flapbase World Filter */
+  contact: {
+    /** コンタクト作成 */
+    create: 'contact.create',
+    /** コンタクト一覧 */
+    list:   'contact.list',
+    /** コンタクト検索 */
+    search: 'contact.search',
+  },
+
+  // ── document.* ────────────────────────────────────────────────────────────
+  /** ドキュメント管理 — Flapbase World Filter */
+  document: {
+    /** ドキュメント作成 */
+    create: 'document.create',
+    /** ドキュメント一覧 */
+    list:   'document.list',
+    /** ドキュメント検索 */
+    search: 'document.search',
+  },
+
+  // ── routine.* ─────────────────────────────────────────────────────────────
+  /** ルーティン（定期自動化）管理 — Flapbase World Filter */
+  routine: {
+    /** ルーティン作成 */
+    create: 'routine.create',
+    /** ルーティン一覧 */
+    list:   'routine.list',
+  },
+
+  // ── search.* ──────────────────────────────────────────────────────────────
+  /**
+   * 検索抽象層 — ユーザー向け高レベル検索意図
+   * local → data.vdb_query / vdb → data.vdb_search / intel → intel.get_feed に委譲
+   */
+  search: {
+    /** ワークスペース内ローカル検索 */
+    local: 'search.local',
+    /** VDB セマンティック検索 */
+    vdb:   'search.vdb',
+    /** インテリジェンスレイク検索 */
+    intel: 'search.intel',
+  },
+
+  // ── conv.* ────────────────────────────────────────────────────────────────
+  /**
+   * 会話シグナル Reflex — エージェントが検出・応答する会話メタ操作
+   * ソーシャルメディア操作（connector.*）とは別概念
+   */
+  conv: {
+    /** 了解・承認シグナル */
+    ack:      'conv.ack',
+    /** 感謝シグナル */
+    thanks:   'conv.thanks',
+    /** 称賛シグナル */
+    praise:   'conv.praise',
+    /** 反応・相槌シグナル */
+    react:    'conv.react',
+    /** 休憩・離席シグナル */
+    idle:     'conv.idle',
+    /** 不満・フラストレーションシグナル */
+    frustrate: 'conv.frustrate',
+    /** 無関心・却下シグナル */
+    dismiss:  'conv.dismiss',
   },
 
   // ── flow.* ────────────────────────────────────────────────────────────────
@@ -599,6 +677,16 @@ export const OBP_TOOL_KEYS = {
       post:   'connector.x.post',
       search: 'connector.x.search',
     },
+    // ── Instagram ─────────────────────────────────────────────────────────
+    instagram: {
+      /** 投稿 */
+      post: 'connector.instagram.post',
+    },
+    // ── LinkedIn ──────────────────────────────────────────────────────────
+    linkedin: {
+      /** 投稿 */
+      post: 'connector.linkedin.post',
+    },
     // ── Stripe ────────────────────────────────────────────────────────────
     stripe: {
       /** 支払い情報取得 — scope: payment_intents:read */
@@ -678,7 +766,6 @@ export type OBPWebToolKey          = FlattenLeaves<typeof OBP_TOOL_KEYS.web>
 export type OBPResearchToolKey     = FlattenLeaves<typeof OBP_TOOL_KEYS.research>
 export type OBPIntelToolKey        = FlattenLeaves<typeof OBP_TOOL_KEYS.intel>
 export type OBPSocialToolKey       = FlattenLeaves<typeof OBP_TOOL_KEYS.social>
-export type OBPGrokToolKey         = FlattenLeaves<typeof OBP_TOOL_KEYS.grok>
 export type OBPFlowToolKey         = FlattenLeaves<typeof OBP_TOOL_KEYS.flow>
 export type OBPAgentToolKey        = FlattenLeaves<typeof OBP_TOOL_KEYS.agent>
 export type OBPMemoryToolKey       = FlattenLeaves<typeof OBP_TOOL_KEYS.memory>
@@ -697,6 +784,12 @@ export type OBPWorkspaceToolKey    = FlattenLeaves<typeof OBP_TOOL_KEYS.workspac
 export type OBPBuilderToolKey      = FlattenLeaves<typeof OBP_TOOL_KEYS.builder>
 export type OBPOrchestratorToolKey = FlattenLeaves<typeof OBP_TOOL_KEYS.orchestrator>
 export type OBPConnectorToolKey    = FlattenLeaves<typeof OBP_TOOL_KEYS.connector>
+export type OBPKnowledgeToolKey    = FlattenLeaves<typeof OBP_TOOL_KEYS.knowledge>
+export type OBPContactToolKey      = FlattenLeaves<typeof OBP_TOOL_KEYS.contact>
+export type OBPDocumentToolKey     = FlattenLeaves<typeof OBP_TOOL_KEYS.document>
+export type OBPRoutineToolKey      = FlattenLeaves<typeof OBP_TOOL_KEYS.routine>
+export type OBPSearchToolKey       = FlattenLeaves<typeof OBP_TOOL_KEYS.search>
+export type OBPConvToolKey         = FlattenLeaves<typeof OBP_TOOL_KEYS.conv>
 
 // ---------------------------------------------------------------------------
 // Tool metadata types
@@ -753,16 +846,24 @@ export const OBP_TOOL_META: Record<OBPToolKey, OBPToolMeta> = {
   'change.create':          { label: '変更リクエスト作成', category: 'change', execution: 'sync', risk: 'medium', tool_type: 'rpc', credits: 1, phase: 'ga' },
 
   // ── project ───────────────────────────────────────────────────────────────
-  'project.list':             { label: 'プロジェクト一覧',     category: 'project', execution: 'sync', risk: 'safe',   tool_type: 'rpc', credits: 0, phase: 'ga' },
-  'project.issue_list':       { label: '課題一覧',             category: 'project', execution: 'sync', risk: 'safe',   tool_type: 'rpc', credits: 0, phase: 'ga' },
-  'project.issue_create':     { label: '課題作成',             category: 'project', execution: 'sync', risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga' },
-  'project.issue_update':     { label: '課題更新',             category: 'project', execution: 'sync', risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga' },
-  'project.issue_delete':     { label: '課題削除',             category: 'project', execution: 'sync', risk: 'medium', tool_type: 'rpc', credits: 1, phase: 'ga' },
-  'project.task_alerts_list': { label: 'タスクアラート一覧',   category: 'project', execution: 'sync', risk: 'safe',   tool_type: 'rpc', credits: 0, phase: 'ga' },
-  'project.schedule_list':    { label: 'スケジュール一覧',     category: 'project', execution: 'sync', risk: 'safe',   tool_type: 'rpc', credits: 0, phase: 'ga' },
-  'project.schedule_create':  { label: 'スケジュール作成',     category: 'project', execution: 'sync', risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga' },
-  'project.schedule_update':  { label: 'スケジュール更新',     category: 'project', execution: 'sync', risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga' },
-  'project.schedule_delete':  { label: 'スケジュール削除',     category: 'project', execution: 'sync', risk: 'medium', tool_type: 'rpc', credits: 1, phase: 'ga' },
+  'project.list':              { label: 'プロジェクト一覧',       category: 'project', execution: 'sync',  risk: 'safe',   tool_type: 'rpc', credits: 0, phase: 'ga'      },
+  'project.issue_list':        { label: '課題一覧',               category: 'project', execution: 'sync',  risk: 'safe',   tool_type: 'rpc', credits: 0, phase: 'ga'      },
+  'project.issue_create':      { label: '課題作成',               category: 'project', execution: 'sync',  risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga'      },
+  'project.issue_complete':    { label: '課題完了',               category: 'project', execution: 'sync',  risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga'      },
+  'project.issue_update':      { label: '課題更新',               category: 'project', execution: 'sync',  risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga'      },
+  'project.issue_delete':      { label: '課題削除',               category: 'project', execution: 'sync',  risk: 'medium', tool_type: 'rpc', credits: 1, phase: 'ga'      },
+  'project.issue_decompose':   { label: '課題分解',               category: 'project', execution: 'async', risk: 'low',    tool_type: 'ai',  credits: 3, phase: 'ga'      },
+  'project.subtask_create':    { label: 'サブタスク作成',         category: 'project', execution: 'sync',  risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga'      },
+  'project.issue_describe':    { label: '課題説明更新',           category: 'project', execution: 'sync',  risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga'      },
+  'project.issue_rename':      { label: '課題タイトル変更',       category: 'project', execution: 'sync',  risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga'      },
+  'project.issue_set_due':     { label: '課題期限設定',           category: 'project', execution: 'sync',  risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga'      },
+  'project.issue_link':        { label: '課題リンク',             category: 'project', execution: 'sync',  risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga'      },
+  'project.task_alerts_list':  { label: 'タスクアラート一覧',     category: 'project', execution: 'sync',  risk: 'safe',   tool_type: 'rpc', credits: 0, phase: 'ga'      },
+  'project.schedule_list':     { label: 'スケジュール一覧',       category: 'project', execution: 'sync',  risk: 'safe',   tool_type: 'rpc', credits: 0, phase: 'ga'      },
+  'project.schedule_create':   { label: 'スケジュール作成',       category: 'project', execution: 'sync',  risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga'      },
+  'project.schedule_update':   { label: 'スケジュール更新',       category: 'project', execution: 'sync',  risk: 'low',    tool_type: 'rpc', credits: 1, phase: 'ga'      },
+  'project.schedule_delete':   { label: 'スケジュール削除',       category: 'project', execution: 'sync',  risk: 'medium', tool_type: 'rpc', credits: 1, phase: 'ga'      },
+  'project.schedule_propose':  { label: 'スケジュール候補提案',   category: 'project', execution: 'sync',  risk: 'safe',   tool_type: 'rpc', credits: 1, phase: 'ga'      },
 
   // ── vapp ──────────────────────────────────────────────────────────────────
   'vapp.analyze':       { label: 'VApp 分析',        category: 'vapp', execution: 'async', risk: 'safe', tool_type: 'ai', credits: 5,  phase: 'ga', obp_prototype: 'being.configure' },
@@ -789,7 +890,6 @@ export const OBP_TOOL_META: Record<OBPToolKey, OBPToolMeta> = {
   'ai.extract':          { label: '構造抽出',           category: 'ai', execution: 'sync',   risk: 'safe', tool_type: 'ai', credits: 3,  phase: 'ga'   },
 
   // ── notify ────────────────────────────────────────────────────────────────
-  'notify.slack':   { label: 'Slack Notify',  category: 'notify', execution: 'sync',  risk: 'medium', tool_type: 'external', credits: 1, phase: 'ga' },
   'notify.email':   { label: 'Email Notify',  category: 'notify', execution: 'async', risk: 'medium', tool_type: 'external', credits: 2, phase: 'ga' },
   'notify.webhook': { label: 'Webhook Send',  category: 'notify', execution: 'sync',  risk: 'medium', tool_type: 'external', credits: 1, phase: 'ga' },
   'notify.in_app':  { label: 'In-App Notify', category: 'notify', execution: 'sync',  risk: 'safe',   tool_type: 'rpc',      credits: 0, phase: 'ga' },
@@ -814,14 +914,8 @@ export const OBP_TOOL_META: Record<OBPToolKey, OBPToolMeta> = {
   'intel.fetch_full_texts': { label: '全文取得',                    category: 'intel', execution: 'async', risk: 'safe', tool_type: 'external', credits: 2, phase: 'ga' },
 
   // ── social ────────────────────────────────────────────────────────────────
-  'social.twitter_post':   { label: 'Twitter/X Post',    category: 'social', execution: 'sync',  risk: 'high',  tool_type: 'external', credits: 3, phase: 'ga'      },
-  'social.twitter_search': { label: 'Twitter/X Search',  category: 'social', execution: 'sync',  risk: 'safe',  tool_type: 'external', credits: 2, phase: 'ga'      },
-  'social.instagram_post': { label: 'Instagram Post',    category: 'social', execution: 'sync',  risk: 'high',  tool_type: 'external', credits: 3, phase: 'planned' },
-  'social.linkedin_post':  { label: 'LinkedIn Post',     category: 'social', execution: 'sync',  risk: 'high',  tool_type: 'external', credits: 3, phase: 'planned' },
-  'social.curate':         { label: 'ソーシャルキュレーション', category: 'social', execution: 'async', risk: 'safe', tool_type: 'external', credits: 5, phase: 'ga' },
-
-  // ── grok ──────────────────────────────────────────────────────────────────
-  'grok.live_search': { label: 'Grok ライブ検索', category: 'grok', execution: 'async', risk: 'safe', tool_type: 'external', credits: 3, phase: 'ga' },
+  // Brand-specific posts moved to connector.x.* / connector.instagram.* / connector.linkedin.*
+  'social.curate': { label: 'ソーシャルキュレーション', category: 'social', execution: 'async', risk: 'safe', tool_type: 'external', credits: 5, phase: 'ga' },
 
   // ── flow ──────────────────────────────────────────────────────────────────
   'flow.conditional': { label: 'Conditional', category: 'flow', execution: 'sync',  risk: 'safe', tool_type: 'flow', credits: 0, phase: 'ga' },
@@ -1033,6 +1127,44 @@ export const OBP_TOOL_META: Record<OBPToolKey, OBPToolMeta> = {
   // ── orchestrator (追加キー) ───────────────────────────────────────────────
   'orchestrator.spawn_team':  { label: 'Spawn Team',   category: 'orchestrator', execution: 'async', risk: 'medium', tool_type: 'agent', credits: 15, phase: 'beta', obp_prototype: 'being.coordinate' },
   'orchestrator.team_status': { label: 'Team Status',  category: 'orchestrator', execution: 'sync',  risk: 'safe',   tool_type: 'rpc',   credits: 0,  phase: 'beta'  },
+
+  // ── knowledge ─────────────────────────────────────────────────────────────
+  'knowledge.save':  { label: 'ナレッジ保存',   category: 'knowledge', execution: 'sync', risk: 'low',  tool_type: 'vdb_write', credits: 1, phase: 'ga' },
+  'knowledge.query': { label: 'ナレッジ参照',   category: 'knowledge', execution: 'sync', risk: 'safe', tool_type: 'vdb_read',  credits: 1, phase: 'ga' },
+
+  // ── contact ───────────────────────────────────────────────────────────────
+  'contact.create': { label: 'コンタクト作成', category: 'contact', execution: 'sync', risk: 'low',  tool_type: 'rpc', credits: 1, phase: 'ga' },
+  'contact.list':   { label: 'コンタクト一覧', category: 'contact', execution: 'sync', risk: 'safe', tool_type: 'rpc', credits: 0, phase: 'ga' },
+  'contact.search': { label: 'コンタクト検索', category: 'contact', execution: 'sync', risk: 'safe', tool_type: 'rpc', credits: 0, phase: 'ga' },
+
+  // ── document ──────────────────────────────────────────────────────────────
+  'document.create': { label: 'ドキュメント作成', category: 'document', execution: 'sync', risk: 'low',  tool_type: 'rpc', credits: 1, phase: 'ga' },
+  'document.list':   { label: 'ドキュメント一覧', category: 'document', execution: 'sync', risk: 'safe', tool_type: 'rpc', credits: 0, phase: 'ga' },
+  'document.search': { label: 'ドキュメント検索', category: 'document', execution: 'sync', risk: 'safe', tool_type: 'rpc', credits: 0, phase: 'ga' },
+
+  // ── routine ───────────────────────────────────────────────────────────────
+  'routine.create': { label: 'ルーティン作成', category: 'routine', execution: 'sync', risk: 'low',  tool_type: 'rpc', credits: 1, phase: 'ga' },
+  'routine.list':   { label: 'ルーティン一覧', category: 'routine', execution: 'sync', risk: 'safe', tool_type: 'rpc', credits: 0, phase: 'ga' },
+
+  // ── search ────────────────────────────────────────────────────────────────
+  'search.local': { label: 'ローカル検索',       category: 'search', execution: 'sync', risk: 'safe', tool_type: 'vdb_read',  credits: 1, phase: 'ga' },
+  'search.vdb':   { label: 'VDB セマンティック', category: 'search', execution: 'sync', risk: 'safe', tool_type: 'vdb_read',  credits: 2, phase: 'ga' },
+  'search.intel': { label: 'インテリジェンス検索', category: 'search', execution: 'sync', risk: 'safe', tool_type: 'external', credits: 1, phase: 'ga' },
+
+  // ── conv ──────────────────────────────────────────────────────────────────
+  'conv.ack':      { label: '了解シグナル',   category: 'conv', execution: 'sync', risk: 'safe', tool_type: 'rpc', credits: 0, phase: 'ga' },
+  'conv.thanks':   { label: '感謝シグナル',   category: 'conv', execution: 'sync', risk: 'safe', tool_type: 'rpc', credits: 0, phase: 'ga' },
+  'conv.praise':   { label: '称賛シグナル',   category: 'conv', execution: 'sync', risk: 'safe', tool_type: 'rpc', credits: 0, phase: 'ga' },
+  'conv.react':    { label: '反応シグナル',   category: 'conv', execution: 'sync', risk: 'safe', tool_type: 'rpc', credits: 0, phase: 'ga' },
+  'conv.idle':     { label: '離席シグナル',   category: 'conv', execution: 'sync', risk: 'safe', tool_type: 'rpc', credits: 0, phase: 'ga' },
+  'conv.frustrate':{ label: '不満シグナル',   category: 'conv', execution: 'sync', risk: 'safe', tool_type: 'rpc', credits: 0, phase: 'ga' },
+  'conv.dismiss':  { label: '無関心シグナル', category: 'conv', execution: 'sync', risk: 'safe', tool_type: 'rpc', credits: 0, phase: 'ga' },
+
+  // ── connector.instagram ───────────────────────────────────────────────────
+  'connector.instagram.post': { label: 'Instagram: 投稿', category: 'connector', execution: 'sync', risk: 'high', tool_type: 'external', credits: 3, phase: 'planned' },
+
+  // ── connector.linkedin ────────────────────────────────────────────────────
+  'connector.linkedin.post': { label: 'LinkedIn: 投稿', category: 'connector', execution: 'sync', risk: 'high', tool_type: 'external', credits: 3, phase: 'planned' },
 }
 
 // ---------------------------------------------------------------------------
